@@ -11,6 +11,8 @@ class ContextVector:
     def __init__(self, environment, player_character, character_state, action, obj):
         self.state_vector = (environment, (player_character, character_state, action, obj))
 
+    def __str__(self):
+        return f"ContextVector(state_vector={self.state_vector})"
 
 class State:
     def __init__(self, environment, previousgptstory):
@@ -63,42 +65,42 @@ class Graph:
             self.nodes = loaded_graph.nodes
 
 
-# Example usage
-graph = Graph()
+# # Example usage
+# graph = Graph()
 
-state1 = ContextVector("Forest", "Player1", "alive", "Walking", "Tree")
-state2 = ContextVector("City", "Player2", "alive", "Resting", "Building")
-state3 = ContextVector("Village", "Player3", "no hit points", "Dead", "Well")
+# state1 = ContextVector("Forest", "Player1", "alive", "Walking", "Tree")
+# state2 = ContextVector("City", "Player2", "alive", "Resting", "Building")
+# state3 = ContextVector("Village", "Player3", "no hit points", "Dead", "Well")
 
-node1 = graph.add_node(state1)
-node2 = graph.add_node(state2)
-node3 = graph.add_node(state3)
+# node1 = graph.add_node(state1)
+# node2 = graph.add_node(state2)
+# node3 = graph.add_node(state3)
 
-# Connecting nodes
-# node1_child = graph.add_node(State("Additional state data"), parent=node1)
-node1_child = graph.add_node(ContextVector("Desert", "Player4", "alive", "Running", "Dune"), parent=node1)
+# # Connecting nodes
+# # node1_child = graph.add_node(State("Additional state data"), parent=node1)
+# node1_child = graph.add_node(ContextVector("Desert", "Player4", "alive", "Running", "Dune"), parent=node1)
 
-# Save the graph to a file
-graph.save_to_file("graph.txt")
+# # Save the graph to a file
+# graph.save_to_file("graph.txt")
 
-# Load the graph from a file
-loaded_graph = Graph()
-loaded_graph.load_from_file("graph.txt")
+# # Load the graph from a file
+# loaded_graph = Graph()
+# loaded_graph.load_from_file("graph.txt")
 
-# Find a similar state vector and get its child nodes
-new_state_vector = ContextVector("Forest", "Player1", "alive", "Walking", "Tree")
-similar_node = loaded_graph.find_similar_state_vector(new_state_vector)
+# # Find a similar state vector and get its child nodes
+# new_state_vector = ContextVector("Forest", "Player1", "alive", "Walking", "Tree")
+# similar_node = loaded_graph.find_similar_state_vector(new_state_vector)
 
-if similar_node:
-    print("Most similar state vector found. Child node data:")
-    child_data = similar_node.children[0].data
-    if isinstance(child_data, ContextVector):
-        print("Environment:", child_data.state_vector[0])
-        print("Player Character:", child_data.state_vector[1][0])
-        print("Character State:", child_data.state_vector[1][1])
-        print("Action:", child_data.state_vector[1][2])
-        print("Object:", child_data.state_vector[1][3])
-    elif isinstance(child_data, State):
-        print("Additional state data:", child_data.state_vector)
-else:
-    print("No similar state vector found.")
+# if similar_node:
+#     print("Most similar state vector found. Child node data:")
+#     child_data = similar_node.children[0].data
+#     if isinstance(child_data, ContextVector):
+#         print("Environment:", child_data.state_vector[0])
+#         print("Player Character:", child_data.state_vector[1][0])
+#         print("Character State:", child_data.state_vector[1][1])
+#         print("Action:", child_data.state_vector[1][2])
+#         print("Object:", child_data.state_vector[1][3])
+#     elif isinstance(child_data, State):
+#         print("Additional state data:", child_data.state_vector)
+# else:
+#     print("No similar state vector found.")

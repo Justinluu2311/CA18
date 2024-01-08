@@ -71,19 +71,19 @@ def similarity_search(query, index):
 
 index = FAISS.load_local("./full_sotu_index", embeddings)
 
-# Set your query here manually
-question = "Summarize the comments about NATO and its purpose."
-matched_docs, sources = similarity_search(question, index)
+# # Set your query here manually
+# question = "Summarize the comments about NATO and its purpose."
+# matched_docs, sources = similarity_search(question, index)
 
-template = """
-Please use the following context to answer questions.
-Context: {context}
----
-Question: {question}
-Answer: Let's think step by step."""
+# template = """
+# Please use the following context to answer questions.
+# Context: {context}
+# ---
+# Question: {question}
+# Answer: Let's think step by step."""
 
-context = "\n".join([doc.page_content for doc in matched_docs])
-prompt = PromptTemplate(template=template, input_variables=["context", "question"]).partial(context=context)
-llm_chain = LLMChain(prompt=prompt, llm=llm)
+# context = "\n".join([doc.page_content for doc in matched_docs])
+# prompt = PromptTemplate(template=template, input_variables=["context", "question"]).partial(context=context)
+# llm_chain = LLMChain(prompt=prompt, llm=llm)
 
-print(llm_chain.run(question))
+# print(llm_chain.run(question))
