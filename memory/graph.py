@@ -17,6 +17,9 @@ class ContextVector:
 class State:
     def __init__(self, environment, previousgptstory):
         self.state_vector = (environment, [], previousgptstory)
+    
+    def __str__(self):
+        return f"State({self.state_vector})"
 
 
 class Node:
