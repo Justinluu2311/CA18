@@ -82,11 +82,12 @@ class Graph:
         return node.children[child_index]
     
     
-    def increase_weight(self, node, state):
-        pass
+    def update_weight(self, cv, state, value):
+        for s in cv.children:
+            if s == state:
+                s.weight = s.weight + value
 
-    def decrease_weight(self, node, state):
-        pass
+
 
 
 
