@@ -1,4 +1,5 @@
 import pickle
+import random
 
 
 def calculate_similarity(state_vector1, state_vector2):
@@ -66,6 +67,30 @@ class Graph:
             loaded_graph = pickle.load(file)
             # Copy the loaded data to the current object
             self.nodes = loaded_graph.nodes
+
+
+    def get_next_state(self, node):
+        total = 0
+        for child in node.children:
+            total += child.weight
+
+        probabilities = []
+        for child in node.children:
+            probabilities.append(child.weight / total)
+        
+        child_index = random.choices(range(len(probabilities)), weights=probabilities, k=1)[0]
+        return node.children[child_index]
+    
+    
+    def increase_weight(self, node, state):
+        pass
+
+    def decrease_weight(self, node, state):
+        pass
+
+
+
+
 
 
 # # Example usage
