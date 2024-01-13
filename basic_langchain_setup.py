@@ -6,8 +6,9 @@ from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 import json
 
 from memory.graph import ContextVector
+from memory.feedback import ask_for_feedback
 
-local_path = './models/gpt4all-falcon-q4_0.gguf' 
+local_path = './models/gpt4all-falcon-newbpe-q4_0.gguf'
 callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
 
 def chatGPTContextVector():
@@ -20,11 +21,11 @@ def chatGPTContextVector():
 
     From this text I want you to give me a single ContextVector which is described as follows: Environment, PlayerCharacter, Characterstate, Action, Object.
     
-    Please extract the environment from this. The environment can be one of these options only: Forest, City, Village, Camp.
+    Please extract the environment from this. The environment can be one of these options only: Forest, City, Village, Camp. If the environment isn't explicitly mentioned, use context clues to guess where they are.
 
     From the following please extract the character's state. The character state can either be "no hitpoints" or "alive".
 
-    From the following also extract a character's action. The action can be "Death saving throw", "Dead", "Fighting", "Walking", "Resting" or "Interacting".
+    From the following also extract a character's current action. The action can ONLY be "Death saving throw", "Dead", "Fighting", "Walking", "Resting" or "Interacting". Make sure to categorize it into one of these six actions. The death saving throw is only used when the character has less than 0 hp"
 
     From the following also extract an object the character is performing the action on. Define the character that is performing the action as "PlayerCharacter" and the object as "Object".
 
@@ -58,5 +59,10 @@ def pipeline():
     context_vector = ContextVector(json_object["Environment"], json_object["PlayerCharacter"], json_object["Characterstate"], json_object["Action"], json_object["Object"])
     
     print(context_vector)
+    #TODO: change these values to the graph instance and the state
+    state = 1
+    graph = 1
+    ask_for_feedback(context_vector, state, graph)
+
 
 pipeline()
