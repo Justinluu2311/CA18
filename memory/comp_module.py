@@ -18,7 +18,6 @@ class CNode:
     
 
 class CGraph:
-    # TODo make sure there is atleast one nextstate
     def __init__(self, next_states):
         self.nodes = {}
         self.next_states = next_states
@@ -37,6 +36,11 @@ class CGraph:
 
     def get_next_state(self, node):
         # Return the state with the highest weight in self.nodes[node]
+        if node not in self.nodes:
+            self.add_node(node)
+        if len(self.next_states) == 0:
+            return graph.State("No Environments", "No States")
+        
         connections = self.nodes.get(node, [])
 
         # Find the state(s) with the highest weight
