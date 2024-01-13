@@ -41,7 +41,12 @@ class CGraph:
         if len(self.next_states) == 0:
             return graph.State("No Environments", "No States")
         
+        eps = 0.2
+
         connections = self.nodes.get(node, [])
+        
+        if (random.uniform(0,1) < eps):
+            return random.choice([state for state, _ in connections])
 
         # Find the state(s) with the highest weight
         max_weight = max(connections, key=lambda x: x[1])[1]
@@ -84,12 +89,16 @@ class CGraph:
 # node2 = CNode(cv1, state1)
 
 # cgraph.add_node(node)
-# cgraph.add_node(node2)
-
-
+# print(cgraph.get_next_state(node))
 # cgraph.increase_connection(node, state3)
-# nxt = cgraph.get_next_state(node2)
-# print(nxt)
+
+# # nxt = cgraph.get_next_state(node)
+# print(cgraph.get_next_state(node))
+# print(cgraph.get_next_state(node))
+# print(cgraph.get_next_state(node))
+# print(cgraph.get_next_state(node))
+# print(cgraph.get_next_state(node))
+# print(cgraph.get_next_state(node))
 
 
 
