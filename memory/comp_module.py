@@ -7,7 +7,15 @@ class CNode:
 
     def __str__(self):
         return f"Node({self.node[0]}, {self.node[1]})"
-
+    
+    def __eq__(self, other):
+        # Define equality based on the contextvector and state
+        return isinstance(other, CNode) and self.node == other.node
+    
+    def __hash__(self):
+        # Hash based on the hash of the tuple (contextvector, state)
+        return hash(self.node)
+    
 
 class CGraph:
     # TODo make sure there is atleast one nextstate
@@ -69,12 +77,14 @@ class CGraph:
 # cv3 = graph.ContextVector("Village", "Player3", "no hit points", "Dead", "Well")
 
 # node = CNode(cv1, state1)
+# node2 = CNode(cv1, state1)
+
 # cgraph.add_node(node)
-# print(node)
-# nxt = cgraph.get_next_state(node)
-# print(nxt)
+# cgraph.add_node(node2)
+
+
 # cgraph.increase_connection(node, state3)
-# nxt = cgraph.get_next_state(node)
+# nxt = cgraph.get_next_state(node2)
 # print(nxt)
 
 
