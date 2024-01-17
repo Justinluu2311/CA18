@@ -19,16 +19,17 @@ def chatGPTContextVector(rawInput, textInput):
 
     From this action I want you to give me a single ContextVector which is described as follows: Environment, PlayerCharacter, Characterstate, Action, Object.
     
-    Please extract the environment from this.
+    Please extract the environment from this. The environment can only have one keyword.
 
     From the following please extract the character's state. The Characterstate can either be "no hitpoints" or "alive".
 
     From the following also extract a character's current action.
 
-    From the following also extract an object the character is performing the action on. Define the character that is performing the action as "PlayerCharacter" and the object as "Object".
+    From the following also extract an object the character is performing the action on. Define the character that is performing the action as "PlayerCharacter" and the object as "Object". 
+    "Object" only has one keyword.
 
     Return this as a JSON object. With the keys being: Environment, PlayerCharacter, Characterstate, Action, Object.
-    Return only 1 JSON object.
+    Return only 1 JSON object, keep the JSON object as minimal as possible.
     """
 
     prompt = PromptTemplate(template=template, input_variables=["instruction"])
@@ -47,7 +48,7 @@ def chatGPTContextVector(rawInput, textInput):
     return response["text"]
 
 #turn memory=False if the model is not supposed to use memory.
-def chatGPTState(vector, story, state, memory=True):
+def chatGPTState(vector, story, state, memory=False):
     template = """
     Instruction: 
     {request}

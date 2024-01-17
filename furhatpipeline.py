@@ -6,9 +6,9 @@ import furhatpipeline
 
 def initialize_robot(furhat):
     # Startup message
-    # furhat.say(text="Hello! I am your dungeon assistant. I'm here to help you with your D&D game.")
-    # furhat.say(text="I can create scenarios, guide you through adventures, and assist you as a dungeon master.")
-    # furhat.say(text="I'm looking forward to assisting you with your game.")
+    furhat.say(text="Hello! I am your dungeon assistant. I'm here to help you with your D&D game.")
+    furhat.say(text="I can create scenarios, guide you through adventures, and assist you as a dungeon master.")
+    furhat.say(text="I'm looking forward to assisting you with your game.")
     furhat.gesture(name="Smile")
 
 
