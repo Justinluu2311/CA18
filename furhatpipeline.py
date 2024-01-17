@@ -58,7 +58,7 @@ def listen_with_timeout(furhat, timeout_sec):
 def main_scenario_loop(furhat):
     story = "You find yourself in a mysterious forest. The trees are tall, and the air is filled with enchantment. You are a brave adventurer seeking treasures and facing challenges."
     print(story)
-    # furhat.say(text=story)
+    furhat.say(text=story)
     flag = False
     game = True
     count = 0

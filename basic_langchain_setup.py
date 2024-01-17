@@ -13,19 +13,17 @@ callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
 
 def chatGPTContextVector(rawInput, textInput):
     template = """
-    Instruction: {instruction}
-
-    Answer: 
+    Action: {instruction}
     
-    The user will give a text describing their action in a Dungeons and Dragons game.
+    Instruction:
 
-    From this text I want you to give me a single ContextVector which is described as follows: Environment, PlayerCharacter, Characterstate, Action, Object.
+    From this action I want you to give me a single ContextVector which is described as follows: Environment, PlayerCharacter, Characterstate, Action, Object.
     
     Please extract the environment from this.
 
-    From the following please extract the character's state. The character state can either be "no hitpoints" or "alive".
+    From the following please extract the character's state. The Characterstate can either be "no hitpoints" or "alive".
 
-    From the following also extract a character's current action. The action can ONLY be "Death saving throw", "Dead", "Fighting", "Walking", "Resting" or "Interacting". Make sure to categorize it into one of these six actions. The death saving throw is only used when the character has less than 0 hp"
+    From the following also extract a character's current action.
 
     From the following also extract an object the character is performing the action on. Define the character that is performing the action as "PlayerCharacter" and the object as "Object".
 
@@ -67,7 +65,7 @@ def chatGPTState(vector, story, state, memory=True):
     """.format(vector, story)
 
     if not memory:
-        request = ""
+        request = "The context vector is {}".format(vector)
     response = llm_chain.invoke(request)
 
     return response["text"]
@@ -85,7 +83,13 @@ def pipeline(currentStory, rawInput, textInput=True):
     
     json_object = convertToJSON(json_string)
 
-    context_vector = ContextVector(json_object["Environment"], json_object["PlayerCharacter"], json_object["Characterstate"], json_object["Action"], json_object["Object"])
+    context_vector = ContextVector(
+        json_object.get("Environment", ""),
+        json_object.get("PlayerCharacter", ""),
+        json_object.get("Characterstate", ""),
+        json_object.get("Action", ""),
+        json_object.get("Object", "")
+    )
     
     most_similar_vector = loaded_graph.find_similar_state_vector(context_vector)
     next_state = None
