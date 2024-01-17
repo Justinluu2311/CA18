@@ -33,26 +33,31 @@ class Node:
     def add_child(self, child):
         self.children.append(child)
 
+    def __str__(self):
+        parent_data = self.parent.data if self.parent else "None"
+        children_data = [child.data for child in self.children]
+        return f"Node(Data: {self.data}, Weight: {self.weight}, Parent: {parent_data}, Children: {children_data})"
+
 
 class Graph:
     def __init__(self):
         self.nodes = []
 
     def add_node(self, data, parent=None):
-        node = Node(data, parent)
+        node = Node(data, 1, parent)
         if parent:
             parent.add_child(node)
         self.nodes.append(node)
         return node
 
     def find_similar_state_vector(self, target_state_vector):
-        max_similarity = 0
+        max_similarity = 1.0
         most_similar_node = None
 
         for node in self.nodes:
             if isinstance(node.data, ContextVector):
                 similarity = calculate_similarity(target_state_vector, node.data)
-                if similarity > max_similarity:
+                if similarity >= max_similarity:
                     max_similarity = similarity
                     most_similar_node = node
 
@@ -94,20 +99,44 @@ class Graph:
 
 
 
-# # Example usage
+# Example usage
 # graph = Graph()
 
-# state1 = ContextVector("Forest", "Player1", "alive", "Walking", "Tree")
-# state2 = ContextVector("City", "Player2", "alive", "Resting", "Building")
-# state3 = ContextVector("Village", "Player3", "no hit points", "Dead", "Well")
+# # Creating ContextVector instances
+# state1 = ContextVector("Forest", "PlayerCharacter", "alive", "Walking", "None")
+# state2 = ContextVector("City", "PlayerCharacter", "alive", "Interacting", "merchant")
+# state3 = ContextVector("Village", "PlayerCharacter", "no hitpoints", "Death saving throw", "ground")
+# state4 = ContextVector("Camp", "PlayerCharacter", "alive", "Interacting", "tent")
+# state5 = ContextVector("Forest", "PlayerCharacter", "alive", "Fighting", "bear")
+# state6 = ContextVector("City", "PlayerCharacter", "no hitpoints", "Dead", "ground")
+# state7 = ContextVector("Village", "PlayerCharacter", "alive", "Resting", "fire")
+# state8 = ContextVector("Camp", "PlayerCharacter", "alive", "Fighting", "bandits")
+# state9 = ContextVector("City", "PlayerCharacter", "alive", "Walking", "buildings")
+# state10 = ContextVector("Forest", "PlayerCharacter", "alive", "Interacting", "map")
 
+# # Adding states as nodes to the graph
 # node1 = graph.add_node(state1)
 # node2 = graph.add_node(state2)
 # node3 = graph.add_node(state3)
+# node4 = graph.add_node(state4)
+# node5 = graph.add_node(state5)
+# node6 = graph.add_node(state6)
+# node7 = graph.add_node(state7)
+# node9 = graph.add_node(state9)
+# node10 = graph.add_node(state10)
 
 # # Connecting nodes
-# # node1_child = graph.add_node(State("Additional state data"), parent=node1)
-# node1_child = graph.add_node(ContextVector("Desert", "Player4", "alive", "Running", "Dune"), parent=node1)
+# state1 = State("Forest", None)
+# state2 = State("Forest", None)
+# state3 = State("Camp", None)
+# state_node1 = graph.add_node(state1, node1)
+# node5 = graph.add_node(state5, state_node1)
+# state_node2 = graph.add_node(state2, node5)
+# node8 = graph.add_node(state8, state_node2)
+
+
+# # state_node3 = graph.add_node(state3, node8)
+
 
 # # Save the graph to a file
 # graph.save_to_file("graph.txt")
